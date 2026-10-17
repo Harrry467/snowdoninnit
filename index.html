@@ -26,7 +26,7 @@ body{--on:#fff}
 .tab-radio{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .page{display:none}
 #t-sunday:checked~main #sunday,#t-monday:checked~main #monday,#t-tuesday:checked~main #tuesday{display:grid}
-#t-group:checked~main #group,#t-individual:checked~main #individual{display:block}
+#t-group:checked~main #group,#t-individual:checked~main #individual,#t-emergency:checked~main #emergency{display:block}
 
 .hero{background:var(--slate);color:var(--hero-ink);padding:2.4rem 1.25rem 0}
 .hero-in{max-width:56rem;margin:0 auto}
@@ -40,8 +40,8 @@ nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid
 nav ul{display:flex;gap:.4rem;max-width:56rem;margin:0 auto;padding:.6rem 1.25rem;list-style:none;overflow-x:auto}
 nav label{display:block;cursor:pointer;white-space:nowrap;color:var(--muted);padding:.35rem .9rem;border-radius:999px;font-weight:500;font-size:.95rem}
 nav label:hover{background:var(--surface);color:var(--ink)}
-#t-sunday:checked~nav [for=t-sunday],#t-monday:checked~nav [for=t-monday],#t-tuesday:checked~nav [for=t-tuesday],#t-group:checked~nav [for=t-group],#t-individual:checked~nav [for=t-individual]{background:var(--lake);color:var(--on)}
-#t-sunday:focus-visible~nav [for=t-sunday],#t-monday:focus-visible~nav [for=t-monday],#t-tuesday:focus-visible~nav [for=t-tuesday],#t-group:focus-visible~nav [for=t-group],#t-individual:focus-visible~nav [for=t-individual]{outline:3px solid var(--heather);outline-offset:2px}
+#t-sunday:checked~nav [for=t-sunday],#t-monday:checked~nav [for=t-monday],#t-tuesday:checked~nav [for=t-tuesday],#t-group:checked~nav [for=t-group],#t-individual:checked~nav [for=t-individual],#t-emergency:checked~nav [for=t-emergency]{background:var(--lake);color:var(--on)}
+#t-sunday:focus-visible~nav [for=t-sunday],#t-monday:focus-visible~nav [for=t-monday],#t-tuesday:focus-visible~nav [for=t-tuesday],#t-group:focus-visible~nav [for=t-group],#t-individual:focus-visible~nav [for=t-individual],#t-emergency:focus-visible~nav [for=t-emergency]{outline:3px solid var(--heather);outline-offset:2px}
 
 main{max-width:56rem;margin:0 auto;padding:0 1.25rem 4rem}
 h2{font:600 1.7rem/1.15 var(--head);margin:0 0 .9rem;letter-spacing:-.01em}
@@ -85,6 +85,10 @@ h3{font:600 1.1rem/1.3 var(--head);margin:0 0 .5rem}
 .checks input:checked+span{text-decoration:line-through;color:var(--muted)}
 .checks small{display:block;color:var(--muted);font-size:.9rem}
 
+.sos{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.4rem;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--heather);border-radius:10px;padding:1rem 1.3rem}
+.sos p{margin:0;flex:1 1 15rem}
+.big{font:800 3.4rem/1 var(--head);color:var(--heather);text-decoration:none}
+.rows a{color:var(--lake);font-weight:600}
 @media (max-width:640px){
   .day{grid-template-columns:1fr;gap:.9rem;padding:1.8rem 0}
   .when{flex-direction:row;align-items:baseline;gap:.6rem}
@@ -100,6 +104,7 @@ h3{font:600 1.1rem/1.3 var(--head);margin:0 0 .5rem}
 <input class="tab-radio" type="radio" name="tab" id="t-tuesday" aria-label="Tuesday">
 <input class="tab-radio" type="radio" name="tab" id="t-group" aria-label="Group">
 <input class="tab-radio" type="radio" name="tab" id="t-individual" aria-label="Individual needs">
+<input class="tab-radio" type="radio" name="tab" id="t-emergency" aria-label="Emergency">
 
 <header class="hero" id="top">
   <div class="hero-in">
@@ -119,6 +124,7 @@ h3{font:600 1.1rem/1.3 var(--head);margin:0 0 .5rem}
     <li><label for="t-tuesday">Tuesday</label></li>
     <li><label for="t-group">Group</label></li>
     <li><label for="t-individual">Individual needs</label></li>
+    <li><label for="t-emergency">Emergency</label></li>
   </ul>
 </nav>
 
@@ -301,6 +307,60 @@ h3{font:600 1.1rem/1.3 var(--head);margin:0 0 .5rem}
         <li><label><input type="checkbox"><span>Phone charger</span></label></li>
         <li><label><input type="checkbox"><span>Any personal medication</span></label></li>
       </ul>
+    </section>
+  </article>
+
+  <article class="page" id="emergency">
+    <section class="block">
+      <h2>Emergency</h2>
+      <div class="sos">
+        <a class="big" href="tel:999">999</a>
+        <p>Police, ambulance and mountain rescue all start here. It works on any mobile network, and you can also try 112.</p>
+      </div>
+      <p class="note"><b>Mountain rescue</b>Call 999, ask for Police, then ask for Mountain Rescue.</p>
+    </section>
+
+    <section class="block">
+      <h3>Who to call</h3>
+      <ul class="rows">
+        <li><span class="t">Police</span><span><a href="tel:999">999</a> in an emergency, <a href="tel:101">101</a> if it isn’t urgent.</span></li>
+        <li><span class="t">Ambulance</span><span><a href="tel:999">999</a></span></li>
+        <li><span class="t">Mountain rescue</span><span><a href="tel:999">999</a>, then Police, then Mountain Rescue.</span></li>
+        <li><span class="t">Trouble in the lake</span><span><a href="tel:999">999</a> straight away.</span></li>
+        <li><span class="t">NHS advice</span><span><a href="tel:111">111</a> for medical help that isn’t an emergency.</span></li>
+        <li><span class="t">Nearest A&amp;E</span><span>Ysbyty Gwynedd, Bangor.</span></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h3>Llyn Gwynant Campsite</h3>
+      <div class="panel">
+        <ul class="rows">
+          <li><span class="t">Phone</span><span><a href="tel:01766890302">01766 890302</a></span></li>
+          <li><span class="t">Address</span><span>Nant Gwynant, Caernarfon LL55 4NW</span></li>
+          <li><span class="t">Grid reference</span><span>SH649524. Older sat navs can put the postcode at the wrong end of the lake, so give the grid reference or share a map pin.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h3>Group chat</h3>
+      <div class="panel">
+        <p>Everyone’s phone numbers are in the WhatsApp group chat. Mobile signal around the campsite is reported to be poor, so save the campsite number and share plans in the chat before you set off.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h3>If someone is hurt or missing on the mountain</h3>
+      <div class="panel">
+        <ul>
+          <li>Stay together, and tell the group before anyone splits off.</li>
+          <li>Call 999 and give your location, what has happened, how many people are involved and your phone number.</li>
+          <li>Stay where you are, keep warm and keep your phone on.</li>
+          <li>With no signal, signal for help with six whistle blasts or torch flashes in a minute, then wait a minute and repeat.</li>
+          <li>Harry has the first aid kit.</li>
+        </ul>
+      </div>
     </section>
   </article>
 
