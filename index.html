@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snowdon weekend, 25 to 27 October</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8eded; --surface:#f5f8f8; --ink:#1c2a30; --muted:#4f646b;
+  --slate:#22343b; --hero-ink:#eef4f3; --lake:#2b6e73; --heather:#7a4a86; --line:#c3d0d2;
+  --head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#131c20;--surface:#1b272c;--ink:#e3ebeb;--muted:#9db0b4;--slate:#0e1619;--lake:#6cc0c3;--heather:#c99bd4;--line:#2c3d43;color-scheme:dark}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--body)}
+:focus-visible{outline:3px solid var(--heather);outline-offset:3px;border-radius:4px}
+body{--on:#fff}
+@media (prefers-color-scheme:dark){body{--on:#0e1619}}
+.tab-radio{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.page{display:none}
+#t-sunday:checked~main #sunday,#t-monday:checked~main #monday,#t-tuesday:checked~main #tuesday{display:grid}
+#t-group:checked~main #group,#t-individual:checked~main #individual{display:block}
+
+.hero{background:var(--slate);color:var(--hero-ink);padding:2.4rem 1.25rem 0}
+.hero-in{max-width:56rem;margin:0 auto}
+.hero h1{font:800 clamp(2.2rem,8vw,3.8rem)/1 var(--head);margin:0 0 .5rem;letter-spacing:-.02em}
+.hero p{margin:0;max-width:34rem;font-size:1.1rem;opacity:.88}
+.facts{display:flex;flex-wrap:wrap;gap:.5rem .6rem;margin:1.2rem 0 0;padding:0;list-style:none}
+.facts li{border:1px solid rgba(238,244,243,.35);border-radius:999px;padding:.25rem .8rem;font-size:.92rem}
+.ridge{display:block;width:100%;height:auto;margin-top:1.6rem;fill:var(--bg)}
+
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav ul{display:flex;gap:.4rem;max-width:56rem;margin:0 auto;padding:.6rem 1.25rem;list-style:none;overflow-x:auto}
+nav label{display:block;cursor:pointer;white-space:nowrap;color:var(--muted);padding:.35rem .9rem;border-radius:999px;font-weight:500;font-size:.95rem}
+nav label:hover{background:var(--surface);color:var(--ink)}
+#t-sunday:checked~nav [for=t-sunday],#t-monday:checked~nav [for=t-monday],#t-tuesday:checked~nav [for=t-tuesday],#t-group:checked~nav [for=t-group],#t-individual:checked~nav [for=t-individual]{background:var(--lake);color:var(--on)}
+#t-sunday:focus-visible~nav [for=t-sunday],#t-monday:focus-visible~nav [for=t-monday],#t-tuesday:focus-visible~nav [for=t-tuesday],#t-group:focus-visible~nav [for=t-group],#t-individual:focus-visible~nav [for=t-individual]{outline:3px solid var(--heather);outline-offset:2px}
+
+main{max-width:56rem;margin:0 auto;padding:0 1.25rem 4rem}
+h2{font:600 1.7rem/1.15 var(--head);margin:0 0 .9rem;letter-spacing:-.01em}
+h3{font:600 1.1rem/1.3 var(--head);margin:0 0 .5rem}
+.count{color:var(--muted);font:400 .95rem var(--body)}
+
+.day{grid-template-columns:7.5rem 1fr;gap:1.5rem;padding:2.4rem 0}
+.when{display:flex;flex-direction:column;line-height:1}
+.dow,.mon{font-size:.95rem;color:var(--muted)}
+.dow{margin-bottom:.35rem}.mon{margin-top:.35rem}
+.date{font:800 3.6rem/.9 var(--head);color:var(--lake)}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:grid;grid-template-columns:8.2rem 1fr;gap:.9rem;padding:.65rem 0;border-top:1px solid var(--line)}
+.rows li:first-child{border-top:0;padding-top:0}
+.t{font-weight:600}
+.note{border-left:4px solid var(--heather);background:var(--surface);padding:.75rem 1rem;border-radius:0 8px 8px 0;margin:1rem 0 0}
+.note b{display:block}
+.link{margin:1.4rem 0 0}.link label{color:var(--lake);font-weight:600;text-decoration:underline;cursor:pointer}
+
+.daybar{position:relative;height:98px;margin:1.6rem 0 .6rem}
+.track{position:absolute;top:36px;left:0;right:0;height:14px;border-radius:7px;background:var(--line)}
+.light{position:absolute;top:0;bottom:0;left:8.6%;width:82.5%;background:var(--lake);opacity:.4;border-radius:7px}
+.pin{position:absolute;top:28px;width:4px;height:30px;border-radius:2px;background:var(--heather)}
+.lbl{position:absolute;font-size:.85rem;line-height:1.25;white-space:nowrap}
+.lbl.top{top:0}.lbl.bot{top:66px}
+.axis{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem}
+.panel p,.panel ul{margin:0}.panel ul{padding-left:1.1rem}
+.facts-list{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem}
+.facts-list dt{font-weight:600}.facts-list dd{margin:0}
+
+.block{padding:2.4rem 0;border-bottom:1px solid var(--line)}
+.block:last-child{border-bottom:0}
+.block>p.lede{margin:0 0 1rem;color:var(--muted);max-width:40rem}
+
+.checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(16.5rem,1fr));gap:.6rem}
+.checks label{display:flex;gap:.8rem;align-items:flex-start;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;cursor:pointer}
+.checks input{width:1.3rem;height:1.3rem;margin:.1rem 0 0;accent-color:var(--lake);flex:none}
+.checks input:checked+span{text-decoration:line-through;color:var(--muted)}
+.checks small{display:block;color:var(--muted);font-size:.9rem}
+
+@media (max-width:640px){
+  .day{grid-template-columns:1fr;gap:.9rem;padding:1.8rem 0}
+  .when{flex-direction:row;align-items:baseline;gap:.6rem}
+  .dow,.mon{margin:0;font-size:1rem}.date{font-size:2.6rem}
+  .rows li{grid-template-columns:1fr;gap:.1rem}
+  .pair{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<input class="tab-radio" type="radio" name="tab" id="t-sunday" aria-label="Sunday" checked>
+<input class="tab-radio" type="radio" name="tab" id="t-monday" aria-label="Monday">
+<input class="tab-radio" type="radio" name="tab" id="t-tuesday" aria-label="Tuesday">
+<input class="tab-radio" type="radio" name="tab" id="t-group" aria-label="Group">
+<input class="tab-radio" type="radio" name="tab" id="t-individual" aria-label="Individual needs">
+
+<header class="hero" id="top">
+  <div class="hero-in">
+    <h1>Snowdon weekend</h1>
+    <p>Up Yr Wyddfa by the Watkin Path, camping at Llyn Gwynant, home by train from Bangor.</p>
+    <ul class="facts"><li>Sunday 25 to Tuesday 27 October</li><li>11 people</li><li>Two cars</li></ul>
+  </div>
+  <svg class="ridge" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 120V92L52 74l44 12 58-38 40 14 62-52 36 28 46-20 58 46 44-10 60 28 40-8 60 26v32z"/>
+  </svg>
+</header>
+
+<nav aria-label="Pages">
+  <ul>
+    <li><label for="t-sunday">Sunday</label></li>
+    <li><label for="t-monday">Monday</label></li>
+    <li><label for="t-tuesday">Tuesday</label></li>
+    <li><label for="t-group">Group</label></li>
+    <li><label for="t-individual">Individual needs</label></li>
+  </ul>
+</nav>
+
+<main>
+
+  <article class="page day" id="sunday">
+    <div class="when"><span class="dow">Sunday</span><span class="date">25</span><span class="mon">October</span></div>
+    <div>
+      <h2>Drive up and have a barbecue</h2>
+      <ul class="rows">
+        <li><span class="t">Leave</span><span>Harry and Cieran each choose the leave time for their own car.</span></li>
+        <li><span class="t">From 3pm</span><span>Check in at the campsite.</span></li>
+        <li><span class="t">After check-in</span><span>We will go swimming in the campsite lake at Llyn Gwynant, with options to rent paddleboards and more.</span></li>
+        <li><span class="t">Evening</span><span>Dinner is a BBQ.</span></li>
+      </ul>
+      <p class="link">Cars, tents and food are on the <label for="t-group">Group page</label>.</p>
+    </div>
+  </article>
+
+  <article class="page day" id="monday">
+    <div class="when"><span class="dow">Monday</span><span class="date">26</span><span class="mon">October</span></div>
+    <div>
+      <h2>Summit day on the Watkin Path</h2>
+      <ul class="rows">
+        <li><span class="t">6:00 to 6:15am</span><span>Wake up.</span></li>
+        <li><span class="t">Before 7:15am</span><span>Breakfast of egg and bacon rolls. The bacon is in the cool box.</span></li>
+        <li><span class="t">7:15am</span><span>Start the walk up the Watkin Path.</span></li>
+        <li><span class="t">About 11am</span><span>Summit.</span></li>
+        <li><span class="t">On the hill</span><span>Lunch is the food you carry (see below).</span></li>
+        <li><span class="t">Evening</span><span>Dinner is a Chinese from the local town, brought back by Cieran, or pizza on the campsite.</span></li>
+      </ul>
+
+      <div class="daybar" role="img" aria-label="Daylight runs from 7:02am to 4:56pm. The walk starts at 7:15am and reaches the summit at about 11am.">
+        <span class="lbl top" style="left:8.6%">Light from 7:02am</span>
+        <span class="lbl top" style="right:8.9%">Dark at 4:56pm</span>
+        <div class="track"><div class="light"></div></div>
+        <span class="pin" style="left:10.4%"></span>
+        <span class="pin" style="left:41.7%"></span>
+        <span class="lbl bot" style="left:10.4%">Start 7:15am</span>
+        <span class="lbl bot" style="left:41.7%;margin-left:6px">Summit about 11am</span>
+      </div>
+      <div class="axis" aria-hidden="true"><span>6am</span><span>12pm</span><span>6pm</span></div>
+
+      <div class="pair">
+        <div class="panel">
+          <h3>Water and food</h3>
+          <p>Recommendations are:</p>
+          <ul>
+            <li>At least 2L of water each, and some will want extra.</li>
+            <li>Food: nuts, sandwiches, crisps, cereal bars, bananas, apples and chocolate.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Maps and medical</h3>
+          <ul>
+            <li>Harry, Ben and Cieran download the guide map on their phones.</li>
+            <li>Harry brings a first aid kit.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="page day" id="tuesday">
+    <div class="when"><span class="dow">Tuesday</span><span class="date">27</span><span class="mon">October</span></div>
+    <div>
+      <h2>Breakfast, Bangor and the train home</h2>
+      <ul class="rows">
+        <li><span class="t">From 9am</span><span>Breakfast from the campsite shop, which opens at 9am. Probably egg and bacon rolls.</span></li>
+        <li><span class="t">Around 12</span><span>The taxi leaves camp. It is one 6-person taxi to Bangor station, with the price split.</span></li>
+        <li><span class="t">Cieran’s car</span><span>Cieran drives home with his four.</span></li>
+        <li><span class="t">Lunch</span><span>In Bangor.</span></li>
+        <li><span class="t">3:15pm</span><span>Train from Bangor to Euston.</span></li>
+      </ul>
+      <p class="note"><b>Buy the train tickets</b>The 3:15pm Bangor to Euston needs tickets booked before the trip.</p>
+    </div>
+  </article>
+
+  <article class="page" id="group">
+    <section class="block">
+      <h2>Who is in which car</h2>
+      <div class="pair">
+        <div class="panel">
+          <h3>Cieran’s car <span class="count">4 people</span></h3>
+          <ul><li>Cieran</li><li>Jones</li><li>Gus</li><li>Ben</li></ul>
+        </div>
+        <div class="panel">
+          <h3>Harry’s car <span class="count">7 people</span></h3>
+          <ul><li>Harry</li><li>Carlton</li><li>Anna</li><li>Elsa</li><li>Aura</li><li>Milli</li><li>Jasper</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Tents</h2>
+      <div class="panel">
+        <dl class="facts-list">
+          <dt>Harry</dt><dd>A few 2-man and 3-man tents.</dd>
+          <dt>Ben</dt><dd>One 8-man tent.</dd>
+        </dl>
+      </div>
+      <p class="note"><b>Still wanted</b>Harry could use some bigger tents. Does anyone have any other tents?</p>
+      <p style="margin:1rem 0 0">We will sort out who goes in which tent when we get there.</p>
+    </section>
+
+    <section class="block">
+      <h2>Food, drink and BBQ</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"><span>Bread rolls</span></label></li>
+        <li><label><input type="checkbox"><span>Bacon<small>Goes in the cool box.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Hot dogs</span></label></li>
+        <li><label><input type="checkbox"><span>Burgers</span></label></li>
+        <li><label><input type="checkbox"><span>Hot dog rolls</span></label></li>
+        <li><label><input type="checkbox"><span>BBQ bits</span></label></li>
+        <li><label><input type="checkbox"><span>BBQ<small>Could rent this.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Stove<small>Harry has some but could use more.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Cooking utensils</span></label></li>
+        <li><label><input type="checkbox"><span>Cool box</span></label></li>
+        <li><label><input type="checkbox"><span>Ice for the cool box</span></label></li>
+        <li><label><input type="checkbox"><span>A pack of water</span></label></li>
+        <li><label><input type="checkbox"><span>A pack of Coke</span></label></li>
+        <li><label><input type="checkbox"><span>Biscuits</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Medicine</h2>
+      <div class="panel"><p>Harry will bring a first aid kit.</p></div>
+    </section>
+  </article>
+
+  <article class="page" id="individual">
+    <section class="block">
+      <h2>Individual needs</h2>
+      <p class="lede">What each person brings for themselves. Ticks are saved on your own phone only.</p>
+    </section>
+
+    <section class="block">
+      <h3>Sleeping</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox"><span>Sleeping bag<small>Warm enough for a late October night.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Roll mat or airbed</span></label></li>
+        <li><label><input type="checkbox"><span>Pillow</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h3>Monday on the mountain</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox"><span>Walking boots</span></label></li>
+        <li><label><input type="checkbox"><span>Waterproof jacket and trousers</span></label></li>
+        <li><label><input type="checkbox"><span>Warm layers<small>A fleece or similar.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Hat and gloves</span></label></li>
+        <li><label><input type="checkbox"><span>Day rucksack</span></label></li>
+        <li><label><input type="checkbox"><span>Torch<small>It’s dark by 4:56pm.</small></span></label></li>
+        <li><label><input type="checkbox"><span>2L of water or more</span></label></li>
+        <li><label><input type="checkbox"><span>Food for the hill<small>Recommendations are: nuts, sandwiches, crisps, cereal bars, bananas, apples, chocolate.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Phone, charged, plus a power bank</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h3>At the campsite</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox"><span>Warm clothes for the evenings</span></label></li>
+        <li><label><input type="checkbox"><span>Trainers or sliders</span></label></li>
+        <li><label><input type="checkbox"><span>Swimming costume<small>For the lake on Sunday.</small></span></label></li>
+        <li><label><input type="checkbox"><span>A plate, a cup, a knife, fork and spoon</span></label></li>
+        <li><label><input type="checkbox"><span>Towel and wash bag</span></label></li>
+        <li><label><input type="checkbox"><span>Bin bags for wet kit</span></label></li>
+        <li><label><input type="checkbox"><span>Cash or card<small>Campsite shop, pizza and the taxi.</small></span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h3>Getting home</h3>
+      <ul class="checks">
+        <li><label><input type="checkbox"><span>Clean clothes for Tuesday</span></label></li>
+        <li><label><input type="checkbox"><span>Train ticket<small>3:15pm Bangor to Euston.</small></span></label></li>
+        <li><label><input type="checkbox"><span>Phone charger</span></label></li>
+        <li><label><input type="checkbox"><span>Any personal medication</span></label></li>
+      </ul>
+    </section>
+  </article>
+
+</main>
+
+<script>
+(function(){
+  try{
+    var m=location.hash.slice(1), r=m&&document.getElementById("t-"+m);
+    if(r&&r.classList.contains("tab-radio")) r.checked=true;
+    var hero=document.getElementById("top");
+    document.querySelectorAll(".tab-radio").forEach(function(t){
+      t.addEventListener("change",function(){ var h=hero.offsetHeight; if(window.scrollY>h) window.scrollTo(0,h); });
+    });
+  }catch(e){}
+  var KEY="snowdon-ticks-3", boxes=document.querySelectorAll(".checks input"), saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ saved={}; }
+  boxes.forEach(function(b,i){
+    b.checked=!!saved[i];
+    b.addEventListener("change",function(){
+      saved[i]=b.checked;
+      try{ localStorage.setItem(KEY,JSON.stringify(saved)); }catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
